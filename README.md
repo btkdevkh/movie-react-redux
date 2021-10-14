@@ -28,9 +28,10 @@
     Dans le terminal à la racine du dossier, tapez `npm start` pour faire tourner le projet en développement mode.
     * Ouvrez [http://localhost:3000](http://localhost:3000) pour le visualiser dans le navigateur.
 
-## Plus d'infos
+## Plus d'infos sur React & Redux
 
   Pour apprendre ReactJS, allez vers [React documentation](https://reactjs.org/).
+  Pour apprendre Redux, allez vers [React documentation](https://redux.js.org/).
 
 
 ## Merci à vous pour le test de ce projet.
