@@ -1,15 +1,15 @@
 import { Fragment, useState } from 'react';
 import { Card, CardHeader, IconButton, CardActions, Typography, CardMedia } from '@mui/material';
 import { DeleteOutline, ThumbUp, ThumbDown } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteMovie } from '../actions/movieActions';
+import { voteLike, voteDislike } from '../actions/voteActions';
 
 const MovieDetails = ({ movie }) => {
+  const dispatch = useDispatch();
+
   const [isLike, setIsLike] = useState(false);
   const [isDisLike, setIsDisLike] = useState(false);
-
-  const dispatch = useDispatch();
-  useSelector(state => state.movie)
 
   const handleDelete = () => {
     dispatch(deleteMovie(movie.id))
@@ -18,26 +18,34 @@ const MovieDetails = ({ movie }) => {
   const handleLike = () => {
     if(!isLike) {
       setIsLike(true)
-      movie.likes += 1;
+      dispatch(voteLike({ likes: movie.likes++ }));
 
-      if(isDisLike === true) movie.dislikes -= 1;
+      if(isDisLike === true) {
+        dispatch(voteDislike({ dislikes: movie.dislikes-- }))
+      }
+
       setIsDisLike(false);
+      
     } else {
       setIsLike(false)
-      movie.likes -= 1
+      dispatch(voteLike({ likes: movie.likes-- }));
     }
   }
 
   const handleDislike = () => {
     if(!isDisLike) {
       setIsDisLike(true)
-      movie.dislikes += 1;
+      dispatch(voteDislike({ dislikes: movie.dislikes++ }))
 
-      if(isLike === true) movie.likes -= 1;
+      if(isLike === true) {
+        dispatch(voteLike({ likes: movie.likes-- }));
+      }
+
       setIsLike(false);
+
     } else {
       setIsDisLike(false)
-      movie.dislikes -= 1
+      dispatch(voteDislike({ dislikes: movie.dislikes-- }))
     }
   }
 
