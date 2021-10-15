@@ -6,7 +6,7 @@ import { voteReducer } from './reducers/voteReducers';
 
 const reducer = combineReducers({
   movieList: movieListReducer,
-  vote: voteReducer
+  voteReducer
 });
 
 const initalState = {};

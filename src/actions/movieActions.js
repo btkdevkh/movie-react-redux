@@ -5,9 +5,6 @@ import {
   MOVIE_DELETE_SUCCESS,
   MOVIE_DELETE_REQUEST,
   MOVIE_DELETE_FAIL,
-  MOVIE_FILTER_REQUEST,
-  MOVIE_FILTER_SUCCESS,
-  MOVIE_FILTER_FAIL,
   MOVIE_SEARCH_REQUEST,
   MOVIE_SEARCH_SUCCESS,
   MOVIE_SEARCH_FAIL,
@@ -24,7 +21,7 @@ import seven from '../assets/images/seven.jpg';
 import inception from '../assets/images/inception.jpg';
 import gonegirl from '../assets/images/gonegirl.jpg';
 
-export const listMovies = () => async (dispatch) => {
+export const listMovies = (items = []) => async (dispatch) => {
   try {
     dispatch({ type: MOVIE_LIST_REQUEST })
 
@@ -45,7 +42,7 @@ export const listMovies = () => async (dispatch) => {
     
     dispatch({ 
       type: MOVIE_LIST_SUCCESS,
-      payload: dataForlatted
+      payload: items.length === 0 ? dataForlatted : items
     })
 
   } catch (error) {
@@ -68,23 +65,6 @@ export const deleteMovie = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: MOVIE_DELETE_FAIL,
-      payload: error.message
-    })
-  }
-}
-
-export const filterMovies = (category) => async (dispatch) => {
-  try {
-    dispatch({ type: MOVIE_FILTER_REQUEST })
- 
-    dispatch({ 
-      type: MOVIE_FILTER_SUCCESS,
-      payload: category
-    })
-
-  } catch (error) {
-    dispatch({
-      type: MOVIE_FILTER_FAIL,
       payload: error.message
     })
   }

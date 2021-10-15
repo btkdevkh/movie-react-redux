@@ -8,7 +8,7 @@ import { listMovies } from '../actions/movieActions';
 const MovieList = ({ min, max }) => {
   const dispatch = useDispatch();
   const movieList = useSelector(state => state.movieList);
-  const { loading, error, movies } = movieList;
+  const { loading, error, moviesFiltered } = movieList;
 
   useEffect(() => {    
     dispatch(listMovies())
@@ -22,7 +22,7 @@ const MovieList = ({ min, max }) => {
         <Typography variant="h3">{error}</Typography>
       ) : (
         <Grid container justifyContent="center" spacing={3}>
-          {movies.map((movie, idx) => (
+          {moviesFiltered.map((movie, idx) => (
             idx >= min && idx < max ?
             <Grid item xs={12} md={6} lg={4} key={movie.id}>
               <Paper>

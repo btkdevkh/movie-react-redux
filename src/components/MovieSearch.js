@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { TextField, InputAdornment, FormControl, FormControlLabel, FormLabel, Checkbox, FormGroup, Box } from '@mui/material';
 import { Search, LocalMovies } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
-import { listMovies, filterMovies, searchMovies } from '../actions/movieActions';
+import { listMovies, searchMovies } from '../actions/movieActions';
 
 const MovieSearch = () => {
   const dispatch = useDispatch();
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(false);
 
@@ -25,8 +25,11 @@ const MovieSearch = () => {
       [e.target.name]: e.target.checked
     })
 
-    if(e.target.checked) dispatch(filterMovies(e.target.name));
-    else dispatch(listMovies());
+    if(e.target.checked) {      
+      dispatch(searchMovies(e.target.name.toLowerCase()));
+    } else {
+      dispatch(listMovies());
+    }
   }
 
   const handleSubmit = (e) => {
@@ -35,14 +38,13 @@ const MovieSearch = () => {
     setError(false);
     if(!searchTerm) {
       setError(true);
-      return;
+    } else {
+      dispatch(searchMovies(searchTerm.trim().toLowerCase()));
     }
-
-    dispatch(searchMovies(searchTerm.trim().toLowerCase()));
   }
 
   useEffect(() => {
-    dispatch(listMovies());
+    dispatch(listMovies())
   }, [dispatch, searchTerm])
 
   return (
