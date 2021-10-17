@@ -11,7 +11,7 @@ const MovieList = ({ min, max }) => {
   const { loading, error, moviesFiltered } = movieList;
 
   useEffect(() => {    
-    dispatch(listMovies())
+    dispatch(listMovies());
   }, [dispatch])
 
   return (

@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TextField, InputAdornment, FormControl, FormControlLabel, FormLabel, Checkbox, FormGroup, Box } from '@mui/material';
 import { Search, LocalMovies } from '@mui/icons-material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { listMovies, searchMovies } from '../actions/movieActions';
 
 const MovieSearch = () => {
   const dispatch = useDispatch();
+  const movieList = useSelector(state => state.movieList);
+  const { movies } = movieList;
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [keyword, setKeyword] = useState('');
   const [error, setError] = useState(false);
 
   const [categories, setCategories] = useState({
@@ -17,46 +19,60 @@ const MovieSearch = () => {
     drame: false
   });
 
-  const { comedy, animation, thriller, drame } = categories;
-
-  const handleCheckbox = (e) => {
+  const handleCheck = (e) => {
     setCategories({
       ...categories,
       [e.target.name]: e.target.checked
     })
 
-    if(e.target.checked) {      
-      dispatch(searchMovies(e.target.name.toLowerCase()));
+    if(e.target.checked) {
+      dispatch(searchMovies(movies, e.target.name.toLowerCase(), e.target.checked));
+      dispatch(listMovies());
     } else {
+      dispatch(searchMovies(movies, e.target.name.toLowerCase(), e.target.checked));
+      dispatch(listMovies())
+    }
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+
+    if(!keyword) {
+      setError(true);
+      setKeyword('')
+      setCategories({
+        ...categories,
+        comedy: false,
+        animation: false,
+        thriller: false,
+        drame: false,
+      })
+
+      dispatch(searchMovies(movies, keyword, false));
+      dispatch(listMovies());
+    } else {
+      setError(false);
+
+      dispatch(searchMovies(movies, keyword.trim().toLowerCase(), true));
       dispatch(listMovies());
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setError(false);
-    if(!searchTerm) {
-      setError(true);
-    } else {
-      dispatch(searchMovies(searchTerm.trim().toLowerCase()));
-    }
-  }
-
   useEffect(() => {
-    dispatch(listMovies())
-  }, [dispatch, searchTerm])
+    dispatch(listMovies());
+  }, [dispatch, keyword])
+
+  const { comedy, animation, thriller, drame } = categories;
 
   return (
     <form 
-      onSubmit={handleSubmit}
-      onKeyUp={handleSubmit}
       noValidate 
       autoComplete="off"
       style={{ marginBottom: '15px' }}
     >
-      <TextField 
-        onChange={(e) => setSearchTerm(e.target.value)}
+      <TextField
+        onKeyUp={handleSearch}
+        onChange={(e) => setKeyword(e.target.value)}
         size="small"
         variant="outlined"
         fullWidth
@@ -82,22 +98,22 @@ const MovieSearch = () => {
             <FormLabel>Movies Catégories</FormLabel>
             <FormGroup>
               <FormControlLabel 
-                control={<Checkbox checked={comedy} onChange={handleCheckbox} />} 
+                control={<Checkbox checked={comedy} onChange={handleCheck} />} 
                 label="Comedy"
                 name="comedy"
               />
               <FormControlLabel 
-                control={<Checkbox checked={animation} onChange={handleCheckbox} />} 
+                control={<Checkbox checked={animation} onChange={handleCheck} />} 
                 label="Animation" 
                 name="animation"
               />
               <FormControlLabel 
-                control={<Checkbox checked={thriller} onChange={handleCheckbox} />} 
+                control={<Checkbox checked={thriller} onChange={handleCheck} />} 
                 label="Thriller"
                 name="thriller"
               />
               <FormControlLabel 
-                control={<Checkbox checked={drame} onChange={handleCheckbox} />} 
+                control={<Checkbox checked={drame} onChange={handleCheck} />} 
                 label="Drame"
                 name="drame"
               />

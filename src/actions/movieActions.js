@@ -7,7 +7,7 @@ import {
   MOVIE_DELETE_FAIL,
   MOVIE_SEARCH_REQUEST,
   MOVIE_SEARCH_SUCCESS,
-  MOVIE_SEARCH_FAIL,
+  MOVIE_SEARCH_FAIL
 } from '../constants/movieConstants';
 import { movies$ } from '../data/movies';
 
@@ -21,7 +21,7 @@ import seven from '../assets/images/seven.jpg';
 import inception from '../assets/images/inception.jpg';
 import gonegirl from '../assets/images/gonegirl.jpg';
 
-export const listMovies = (items = []) => async (dispatch) => {
+export const listMovies = () => async (dispatch) => {
   try {
     dispatch({ type: MOVIE_LIST_REQUEST })
 
@@ -42,7 +42,7 @@ export const listMovies = (items = []) => async (dispatch) => {
     
     dispatch({ 
       type: MOVIE_LIST_SUCCESS,
-      payload: items.length === 0 ? dataForlatted : items
+      payload: dataForlatted
     })
 
   } catch (error) {
@@ -70,13 +70,17 @@ export const deleteMovie = (id) => async (dispatch) => {
   }
 }
 
-export const searchMovies = (searchTerme) => async (dispatch) => {
+export const searchMovies = (items, keyword, isBool) => async (dispatch) => {
   try {
     dispatch({ type: MOVIE_SEARCH_REQUEST })
  
     dispatch({ 
       type: MOVIE_SEARCH_SUCCESS,
-      payload: searchTerme
+      payload: {
+        items,
+        keyword,
+        isBool
+      }
     })
 
   } catch (error) {

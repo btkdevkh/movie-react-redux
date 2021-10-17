@@ -1,9 +1,5 @@
 # imovie, projet react-interview
 
-**C'EST TRES IMPORTANT, LISEZ SVP !**
-
-  ## Je dois vous rends ce projet malgré la fonctionalité numéro 4 fonctionne partiellement, mais j'ai implémenté la fonctionalité de la recherche libre des films par titre ou catégories du film, je vais continuer à implémenter de la fonctionalité de la sélection des catégories par multiple choix.
-
 ## BREF DESCRIPTION & FONCTIONALITÉ PRINCIPAL:
 
   1. Lister les films dans des cartes avec: le titre en gras, la catégorie et une jauge type Youtube indiquant le ratio likes/dislikes. Les cartes doivent être côtes à côtes et responsive. Càd que lorsque la fenêtre se réduit, les cartes sautent à la ligne suivante.
