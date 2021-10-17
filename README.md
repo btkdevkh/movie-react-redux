@@ -1,6 +1,6 @@
 # imovie, projet react-interview
 
-### Demo: https://imovie.netlify.app/
+### Demo: https://imovieceep.netlify.app/
 
 ## BREF DESCRIPTION & FONCTIONALITÉ PRINCIPAL:
 
